@@ -13,6 +13,9 @@
 
 
 # Image Processing and Security
+<p align="center">
+    <img src="https://res.craft.do/user/full/63cec524-c1b6-57b4-8157-df0476f848cb/doc/50B32844-863A-4BD6-BEF0-752499782CF9/AEC4710F-EA46-427A-AD8C-8ADECECC3A92_2/LogoUnifi.png" alt="drawing" width="100"/>
+</p>
 
 ## Authors
 - **Mirco Ceccarelli**
