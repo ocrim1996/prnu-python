@@ -1,6 +1,6 @@
 
 
-# Python porting of PRNU extractor and helper functions
+# PRNU extraction via denoiser based on convolutional neural networks (DRUNet)
 
 [<image src="https://api.travis-ci.org/polimi-ispl/prnu-python.svg?branch=master">](https://travis-ci.org/polimi-ispl/prnu-python)
 [![Python](https://img.shields.io/badge/Python-3.8.10-green?style=plastic)](https://www.python.org/downloads/release/python-3810/)
@@ -16,13 +16,13 @@
 # Image Processing and Security
 
 ## Authors
-- Mirco Ceccarelli
-- Francesco Argentieri
+- **Mirco Ceccarelli**
+- **Francesco Argentieri**
 
 ## Co-Authors
-- Prof. Alessandro Piva
-- Dasara Shullani
-- Daniele Baracchi
+- **Prof. Alessandro Piva**
+- **Dasara Shullani**
+- **Daniele Baracchi**
 
 ## Settings
 Before running the code, set up the project correctly.
