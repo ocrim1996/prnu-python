@@ -1,7 +1,11 @@
-numpy
-pillow
+numpy~=1.21.2
+pillow~=7.0.0
 pywavelets
-scipy
-scikit-learn
-tqdm
-matplotlib
+scipy~=1.7.1
+scikit-learn~=1.0.1
+tqdm~=4.62.3
+matplotlib~=3.4.3
+opencv-python~=4.5.3.56
+torch~=1.9.1
+torchvision~=0.10.1
+tabulate~=0.8.9

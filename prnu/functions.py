@@ -1,13 +1,11 @@
 # -*- coding: UTF-8 -*-
 """
-@author: Luca Bondi (luca.bondi@polimi.it)
-@author: Paolo Bestagini (paolo.bestagini@polimi.it)
-@author: Nicolò Bonettini (nicolo.bonettini@polimi.it)
-Politecnico di Milano 2018
+@author: Mirco Ceccarelli (mirco.ceccarelli@stud.unifi.it)
+@author: Francesco Argentieri (francesco.argentieri@stud.unifi.it)
+Università degli Studi di Firenze 2021
 """
-import time
-from multiprocessing import Pool, cpu_count
 
+from multiprocessing import Pool, cpu_count
 import pywt
 from numpy.fft import fft2, ifft2
 from scipy.ndimage import filters
@@ -31,27 +29,31 @@ class ArgumentError(Exception):
 Extraction functions
 """
 
-"""
-NOSTRA FUNZIONE
-"""
 
+# Performs the noise extraction operation via the DRUNET network.
+def noise_extract_drunet(im: np.ndarray, levels: int = 150, sigma: int = 150) -> np.ndarray:
+    """
+        Extract noise residual from a single image
+        :param im: grayscale or color image, np.uint8
+        :param levels: number of noise levels (try: 15, 50, 100)
+        :param sigma: estimated noise power (try: 15, 50, 100)
+        :return: noise residual
+    """
 
-def noise_extract_drunet(im: np.ndarray, levels: int = 15, sigma: int = 15) -> np.ndarray:
     # ----------------------------------------
     # Preparation
     # ----------------------------------------
-
-    noise_level_img = levels    # set AWGN noise level for noisy image
-    noise_level_model = sigma  # set noise level for model
-    model_name = 'drunet_color'      # set denoiser model, 'drunet_gray' | 'drunet_color'
-    x8 = False      # default: False, x8 to boost performance
+    noise_level_img = levels        # set AWGN noise level for noisy image
+    noise_level_model = sigma       # set noise level for model
+    model_name = 'drunet_color'     # set denoiser model, 'drunet_gray' or 'drunet_color'
+    x8 = False                      # default: False, x8 to boost performance
 
     if 'color' in model_name:
-        n_channels = 3  # 3 for color image
+        n_channels = 3              # 3 for color image
     else:
-        n_channels = 1  # 1 for grayscale image
+        n_channels = 1              # 1 for grayscale image
 
-    model_pool = 'model_zoo'  # fixed
+    model_pool = 'model_zoo'        # fixed
 
     model_path = os.path.join(model_pool, model_name + '.pth')
     device = torch.device('cpu')
@@ -71,7 +73,7 @@ def noise_extract_drunet(im: np.ndarray, levels: int = 15, sigma: int = 15) -> n
     model = model.to(device)
 
     # ------------------------------------
-    # (1) img_L
+    # (1) img_L (Low-quality images)
     # ------------------------------------
 
     img_H = im
@@ -87,7 +89,7 @@ def noise_extract_drunet(im: np.ndarray, levels: int = 15, sigma: int = 15) -> n
     img_L = img_L.to(device)
 
     # ------------------------------------
-    # (2) img_E
+    # (2) img_E (Estimated images)
     # ------------------------------------
 
     if not x8 and img_L.size(2) // 8 == 0 and img_L.size(3) // 8 == 0:
@@ -105,20 +107,24 @@ def noise_extract_drunet(im: np.ndarray, levels: int = 15, sigma: int = 15) -> n
 
 
 def extract_single(im: np.ndarray,
-                   levels: int = 15,
-                   sigma: int = 15,
+                   levels: int = 150,
+                   sigma: int = 150,
                    wdft_sigma: float = 0) -> np.ndarray:
     """
     Extract noise residual from a single image
     :param im: grayscale or color image, np.uint8
-    :param levels: number of wavelet decomposition levels
-    :param sigma: estimated noise power
+    :param levels: number of wavelet decomposition levels (try: 15, 50, 100)
+    :param sigma: estimated noise power (try: 15, 50, 100)
     :param wdft_sigma: estimated DFT noise power
     :return: noise residual
     """
 
+    # To use the Polimi noise extract function.
     #W = noise_extract(im, levels, sigma)
+
+    # To use the DRUNet noise extract function.
     W = noise_extract_drunet(im, levels, sigma)
+
     W = rgb2gray(W)
     W = zero_mean_total(W)
     W_std = W.std(ddof=1) if wdft_sigma == 0 else wdft_sigma
@@ -127,10 +133,10 @@ def extract_single(im: np.ndarray,
     return W
 
 
+# Performs the noise extraction operation through a model-based algorithm.
 def noise_extract(im: np.ndarray, levels: int = 4, sigma: float = 5) -> np.ndarray:
     """
     NoiseExtract as from Binghamton toolbox.
-
     :param im: grayscale or color image, np.uint8
     :param levels: number of wavelet decomposition levels
     :param sigma: estimated noise power
@@ -140,15 +146,7 @@ def noise_extract(im: np.ndarray, levels: int = 4, sigma: float = 5) -> np.ndarr
     assert (im.dtype == np.uint8)
     assert (im.ndim in [2, 3])
 
-    #print("Questa è im prima:")
-    #####print(im)
-    ####time.sleep(1)
-
     im = im.astype(np.float32)
-    ###print("Questa è im dopo:")
-    ##print(im)
-    #time.sleep(1)
-
     noise_var = sigma ** 2
 
     if im.ndim == 2:
@@ -197,8 +195,6 @@ def noise_extract(im: np.ndarray, levels: int = 4, sigma: float = 5) -> np.ndarr
         W.shape = W.shape[:2]
 
     W = W[:im.shape[0], :im.shape[1]]
-    ##print("Questa è W:")
-    #print(W)
     return W
 
 
@@ -208,13 +204,18 @@ def noise_extract_compact(args):
     :param args: (im, levels, sigma), see noise_extract for usage
     :return: residual, multiplied by the image
     """
+
+    # To use the Polimi noise extract function.
     #w = noise_extract(*args)
+
+    # To use the DRUNet noise extract function.
     w = noise_extract_drunet(*args)
+
     im = args[0]
     return (w * im / 255.).astype(np.float32)
 
 
-def extract_multiple_aligned(imgs: list, levels: int = 15, sigma: int = 15, processes: int = None,
+def extract_multiple_aligned(imgs: list, levels: int = 150, sigma: int = 150, processes: int = None,
                              batch_size=cpu_count(), tqdm_str: str = '') -> np.ndarray:
     """
     Extract PRNU from a list of images. Images are supposed to be the same size and properly oriented
@@ -222,8 +223,8 @@ def extract_multiple_aligned(imgs: list, levels: int = 15, sigma: int = 15, proc
     :param batch_size: number of parallel processed images
     :param processes: number of parallel processes
     :param imgs: list of images of size (H,W,Ch) and type np.uint8
-    :param levels: number of wavelet decomposition levels
-    :param sigma: estimated noise power
+    :param levels: number of wavelet decomposition levels (try: 15, 50, 100)
+    :param sigma: estimated noise power (try: 15, 50, 100)
     :return: PRNU
     """
     assert (isinstance(imgs[0], np.ndarray))
