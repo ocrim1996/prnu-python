@@ -61,4 +61,6 @@ target/
 
 \.DS_Store
 /venv
-/model_zoo
+
+/model_zoo/drunet_color.pth
+/model_zoo/drunet_gray.pth
