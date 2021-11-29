@@ -31,7 +31,7 @@ In this project we have dealt with a branch of the **Multimedia Forensics**: ***
 
 To do this a noise is exploited that is introduced by the sensors of each digital camera: the **PRNU** (Photo Response Non Uniformity), which is different for each individual device.
 
-Below is a brief scheme of the *Device Identification* process via **PRNU**:
+Here below a brief scheme of the *Device Identification* process via **PRNU**:
 ![DeviceIdentification](https://res.craft.do/user/full/63cec524-c1b6-57b4-8157-df0476f848cb/doc/50B32844-863A-4BD6-BEF0-752499782CF9/9A27C2CD-8046-4155-898A-F7CD270603D4_2/Fasi%20dellestrazione%20del%20PRNU.png)
 
 ## Settings
