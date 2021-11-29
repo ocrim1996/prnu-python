@@ -14,16 +14,16 @@ def extract_path_polimi():
     ff_device = np.array([os.path.split(i)[1].rsplit('_', 1)[0] for i in ff_dirlist])
 
     nat_dirlist = np.array(sorted(glob('test/data/nat-jpg/*.JPG')))
-    print("NAT dir-list: ", nat_dirlist)
+    #print("NAT dir-list: ", nat_dirlist)
     nat_device = np.array([os.path.split(i)[1].rsplit('_', 1)[0] for i in nat_dirlist])
 
     nat_image_name = np.array([os.path.split(i)[1] for i in nat_dirlist])
-    print("NAT image name: ", nat_image_name)
+    #print("NAT image name: ", nat_image_name)
 
     print("-" * 100)
     print('Computing fingerprints')
     fingerprint_device = sorted(np.unique(ff_device))
-    print("NAT device without repetition: ", fingerprint_device)
+    #print("NAT device without repetition: ", fingerprint_device)
 
     return ff_dirlist, ff_device, nat_dirlist, nat_device, nat_image_name, fingerprint_device
 
@@ -55,28 +55,26 @@ def extract_path_revision():
         nat_dirlist.extend(nat_image_dirlist)
 
     ff_dirlist = np.array(ff_dirlist)
-    print("FF Dirlist: ", ff_dirlist)
-    print(len(ff_dirlist))
+    #print("FF Dirlist: ", ff_dirlist)
     nat_dirlist = np.array(nat_dirlist)
-    print("Nat Dirlist: ", nat_dirlist)
-    print(len(nat_dirlist))
+    #print("Nat Dirlist: ", nat_dirlist)
 
     # Flat Images Device
     ff_device = np.array([os.path.split(i)[1].rsplit('_', 3)[0] for i in ff_dirlist])
-    print("Flat Images Device: ", ff_device)
+    #print("Flat Images Device: ", ff_device)
 
     # Nat Images Device
     nat_device = np.array([os.path.split(i)[1].rsplit('_', 3)[0] for i in nat_dirlist])
-    print("Nat Images Device: ", nat_device)
+    #print("Nat Images Device: ", nat_device)
 
     # Nat Image Name
     nat_image_name = np.array([os.path.split(i)[1] for i in nat_dirlist])
-    print("NAT image name: ", nat_image_name)
+    #print("NAT image name: ", nat_image_name)
 
     print("*"*100)
     print('Computing fingerprints')
     fingerprint_device = sorted(np.unique(ff_device))
-    print("Flat Device without repetition: ", fingerprint_device)
+    #print("Flat Device without repetition: ", fingerprint_device)
 
     return ff_dirlist, ff_device, nat_dirlist, nat_device, nat_image_name, fingerprint_device
 

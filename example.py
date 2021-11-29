@@ -82,9 +82,6 @@ def main():
             cc2d = prnu.crosscorr_2d(fingerprint_k, natural_w)
             pce_rot[fingerprint_idx, natural_idx] = prnu.pce(cc2d)['pce']
 
-    print("pce_rot: ", pce_rot)
-    print(len(pce_rot))
-
     print('Computing statistics on PCE')
     stats_pce = prnu.stats(pce_rot, gt)
 
