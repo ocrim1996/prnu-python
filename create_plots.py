@@ -29,7 +29,7 @@ def create_histogram_plot(y_value, labels_value, device_name):
     plt.axhline(y=60, color='b', linestyle='--', label="Threshold")
 
     plt.title("PCE of " + str(device_name) + " with NoiseExtract")
-    outpath = "/data/lesc/users/elaborato2/PRNULab/Histograms_with_NoiseExtract/"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/PolimiDataset/Histograms_with_NoiseExtract/"
     plot_name = outpath + "PCE_of_" + str(device_name)+".png"
 
     plt.savefig(plot_name)
@@ -38,7 +38,7 @@ def create_histogram_plot(y_value, labels_value, device_name):
 
 # Taken in input the true positive rate (tpr) and the false positive rate (fpr) prints the ROC curve.
 def create_roc(tpr, fpr, title):
-    plt.title('ROC Curve of ' + title + ' with DRUNet150')
+    plt.title('ROC Curve of ' + title + ' with DRUNet100')
     plt.plot(fpr, tpr, '-bo', mfc='none', label='20 nat images')
     plt.legend(loc='lower right')
     plt.xlim([0, 1])
@@ -46,15 +46,15 @@ def create_roc(tpr, fpr, title):
     plt.ylabel('True Positive Rate (TPR)')
     plt.xlabel('False Positive Rate (FPR)')
     plt.grid()
-    outpath = "/data/lesc/users/elaborato2/PRNULab/DRUNet150/"
-    plot_name = outpath + "ROC Curve with DRUNet150.png"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/reVISIONDataset/DRUNet100/"
+    plot_name = outpath + "ROC Curve with DRUNet100.png"
     plt.savefig(plot_name)
     plt.show()
 
 
 # Taken in input the true positive rate (tpr) and the false positive rate (fpr) prints the ROC curve for each device.
 def create_roc_per_single_device(tpr, fpr, title, device):
-    plt.title('ROC Curve of ' + title + ' with DRUNet150 of ' + device)
+    plt.title('ROC Curve of ' + title + ' with DRUNet100 of ' + device)
     plt.plot(fpr, tpr, '-bo', mfc='none', label='20 nat images')
     plt.legend(loc='lower right')
     plt.xlim([0, 1])
@@ -62,8 +62,8 @@ def create_roc_per_single_device(tpr, fpr, title, device):
     plt.ylabel('True Positive Rate (TPR)')
     plt.xlabel('False Positive Rate (FPR)')
     plt.grid()
-    outpath = "/data/lesc/users/elaborato2/PRNULab/DRUNet150/DRUNet150ROCSingleDevice/"
-    plot_name = outpath + "ROC Curve with DRUNet150 of " + device + ".png"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/reVISIONDataset/DRUNet100/"
+    plot_name = outpath + "ROC Curve with DRUNet100 of " + device + ".png"
     plt.savefig(plot_name)
     plt.show()
 
@@ -81,7 +81,7 @@ def create_3_multiple_roc(tpr_list, fpr_list, title):
     plt.ylabel('True Positive Rate (TPR)')
     plt.xlabel('False Positive Rate (FPR)')
     plt.grid()
-    outpath = "/data/lesc/users/elaborato2/PRNULab/ROCMultiplePlots/"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/reVISIONDataset/ROCMultiplePlots/"
     plot_name = outpath + "ROC Curve Comparison.png"
     plt.savefig(plot_name)
     plt.show()
@@ -101,7 +101,7 @@ def create_4_multiple_roc(tpr_list, fpr_list, title):
     plt.ylabel('True Positive Rate (TPR)')
     plt.xlabel('False Positive Rate (FPR)')
     plt.grid()
-    outpath = "/data/lesc/users/elaborato2/PRNULab/ROCMultiplePlots/"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/reVISIONDataset/ROCMultiplePlots/"
     plot_name = outpath + "4 ROC Curve Comparison 2.png"
     plt.savefig(plot_name)
     plt.show()
@@ -109,7 +109,7 @@ def create_4_multiple_roc(tpr_list, fpr_list, title):
 
 # Plots a graph with various statistics (TP, FP, TN, FN) for each device.
 def create_boxplot(fingerprint_device, slice_arr, pce_rot, index_img):
-    plt.title('BoxPlot with DRUNet150 ' + str(index_img))
+    plt.title('BoxPlot with DRUNet100 ' + str(index_img))
     for i in range(len(fingerprint_device)):
         stop = (i+1) * len(pce_rot[0])
         start = stop - len(pce_rot[0])
@@ -138,8 +138,8 @@ def create_boxplot(fingerprint_device, slice_arr, pce_rot, index_img):
     plt.ylabel('PCE Value')
     plt.xlabel('Devices')
     plt.grid()
-    outpath = "/data/lesc/users/elaborato2/PRNULab/DRUNet150/"
-    plot_name = outpath + "BoxPlot with DRUNet150 " + str(index_img) + ".png"
+    outpath = "/data/lesc/users/elaborato2/PRNULab/Plots/reVISIONDataset/DRUNet100/"
+    plot_name = outpath + "BoxPlot with DRUNet100 " + str(index_img) + ".png"
     plt.savefig(plot_name)
     plt.show()
 

@@ -31,7 +31,7 @@ Extraction functions
 
 
 # Performs the noise extraction operation via the DRUNET network.
-def noise_extract_drunet(im: np.ndarray, levels: int = 150, sigma: int = 150) -> np.ndarray:
+def noise_extract_drunet(im: np.ndarray, levels: int = 100, sigma: int = 100) -> np.ndarray:
     """
         Extract noise residual from a single image
         :param im: grayscale or color image, np.uint8
@@ -107,8 +107,8 @@ def noise_extract_drunet(im: np.ndarray, levels: int = 150, sigma: int = 150) ->
 
 
 def extract_single(im: np.ndarray,
-                   levels: int = 150,
-                   sigma: int = 150,
+                   levels: int = 100,
+                   sigma: int = 100,
                    wdft_sigma: float = 0) -> np.ndarray:
     """
     Extract noise residual from a single image
@@ -215,7 +215,7 @@ def noise_extract_compact(args):
     return (w * im / 255.).astype(np.float32)
 
 
-def extract_multiple_aligned(imgs: list, levels: int = 150, sigma: int = 150, processes: int = None,
+def extract_multiple_aligned(imgs: list, levels: int = 100, sigma: int = 100, processes: int = None,
                              batch_size=cpu_count(), tqdm_str: str = '') -> np.ndarray:
     """
     Extract PRNU from a list of images. Images are supposed to be the same size and properly oriented

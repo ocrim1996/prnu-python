@@ -93,13 +93,10 @@ def main():
 
     # True Positive Rate (TPR) PCE
     print("True Positive Rate (PCE): {}".format(stats_pce["tpr"]))
-    print("Lunghezza TPR: ", len(stats_pce["tpr"]))
     # False Positive Rate (FPR) PCE
     print("False Positive Rate (PCE): {}".format(stats_pce["fpr"]))
-    print("Lunghezza FPR: ", len(stats_pce["fpr"]))
     # Threshold (PCE)
     print("Threshold (PCE): {}".format(stats_pce["th"]))
-    print("Lunghezza Threshold: ", len(stats_pce["th"]))
 
     # Plots a single ROC curve per device.
     for idx, value in enumerate(pce_rot):
@@ -109,7 +106,7 @@ def main():
         create_plots.create_roc_per_single_device(stats_pce_single_device["tpr"], stats_pce_single_device["fpr"], plot_title, fingerprint_device[idx])
 
     # Write tpr/fpr results in csv file.
-    uf.write_into_csv(stats_pce["tpr"], stats_pce["fpr"], "Plots/DRUNet150/DRUNet150Rate.csv")
+    uf.write_into_csv(stats_pce["tpr"], stats_pce["fpr"], "Plots/reVISIONDataset/DRUNet100/DRUNet100Rate.csv")
 
     # Plots PCE Histograms for each device (Use it only for Polimi dataset, because there are fewer images)
     """
@@ -130,17 +127,17 @@ def main():
             arr_tot.append(tripletta)
 
     # Calculates statistics: True Positive, False Positive, True Negative and False Negative and their respective rates.
-    # After inserts all these data in a table.
+    # Next all these data are inserted in a table.
     statistics_table = []
     TP, FP, TN, FN, TPR, FPR = create_plots.create_value_table(fingerprint_device, nat_image_name, arr_tot)
     for i in range(len(fingerprint_device)):
         six_tuple = [fingerprint_device[i], TP[i], FP[i], TN[i], FN[i], TPR[i], FPR[i]]
         statistics_table.append(six_tuple)
     table = tabulate(statistics_table, headers=["Device", "TP", "FP", "TN", "FN", "TPR", "FPR"], tablefmt='fancy_grid')
-    uf.write_into_table_txt(table, "Plots/DRUNet150/DRUNet150Table.txt")
+    uf.write_into_table_txt(table, "Plots/reVISIONDataset/DRUNet100/DRUNet100Table.txt")
     print(table)
 
-    # Given the quantity of devices Plots are divided into multiple graphics.
+    # Given the quantity of devices, plots are divided into multiple graphics.
     num_plot = 4
     num_dev_per_plot = int(len(fingerprint_device)/num_plot)
 
