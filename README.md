@@ -1,6 +1,6 @@
 
 
-# PRNU extraction via denoiser based on convolutional neural networks (DRUNet)
+# PRNU extraction via denoiser based on convolutional neural network (DRUNet)
 
 [<image src="https://api.travis-ci.org/polimi-ispl/prnu-python.svg?branch=master">](https://travis-ci.org/polimi-ispl/prnu-python)
 [![Python](https://img.shields.io/badge/Python-3.8.10-green?style=plastic)](https://www.python.org/downloads/release/python-3810/)
