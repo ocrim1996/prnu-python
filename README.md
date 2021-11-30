@@ -21,10 +21,10 @@
 - **Mirco Ceccarelli**
 - **Francesco Argentieri**
 
-## Co-Authors
+## Relators
 - **Prof. Alessandro Piva**
-- **Dasara Shullani**
-- **Daniele Baracchi**
+- **Dott. Dasara Shullani**
+- **Dott. Daniele Baracchi**
 
 ## Introduction
 In this project we have dealt with a branch of the **Multimedia Forensics**: ***Device Identification*** (know what device has taken a photo).

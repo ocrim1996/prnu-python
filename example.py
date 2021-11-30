@@ -4,6 +4,7 @@
 @author: Francesco Argentieri (francesco.argentieri@stud.unifi.it)
 Università degli Studi di Firenze 2021
 """
+import time
 from multiprocessing import cpu_count, Pool
 import numpy as np
 from PIL import Image
@@ -30,6 +31,8 @@ def main():
     # To use the reVISION dataset.
     ff_dirlist, ff_device, nat_dirlist, nat_device, nat_image_name, fingerprint_device = extract_path.extract_path_revision()
 
+    # Computing execution time of first noise extraction.
+    start = time.time()
     k = []
     for device in fingerprint_device:
         imgs = []
@@ -46,6 +49,9 @@ def main():
             imgs += [im_cut]
         # First noise extraction to compute the fingerprint from all flat-field images.
         k += [prnu.extract_multiple_aligned(imgs, processes=cpu_count())]
+    end = time.time()
+    total_time = end - start
+    print("First noise extraction computation time: ", total_time)
 
     k = np.stack(k, 0)
 
@@ -57,10 +63,15 @@ def main():
         print("img_path: ", img_path)
         imgs += [prnu.cut_ctr(np.asarray(Image.open(img_path)), (512, 512, 3))]
 
+    # Computing execution time of second noise extraction.
+    start = time.time()
     pool = Pool(cpu_count())
     # Second noise extraction to compute the residual noise for each natural images.
     w = pool.map(prnu.extract_single, imgs)
     pool.close()
+    end = time.time()
+    total_time = end - start
+    print("Second noise extraction computation time: ", total_time)
 
     w = np.stack(w, 0)
 
@@ -68,6 +79,8 @@ def main():
     gt = prnu.gt(fingerprint_device, nat_device)
     print("*" * 100)
 
+    # Computing execution time of statistics.
+    start = time.time()
     print('Computing cross correlation')
     cc_aligned_rot = prnu.aligned_cc(k, w)['cc']
 
@@ -88,6 +101,10 @@ def main():
     print('AUC on CC {:.2f}, expected {:.2f}'.format(stats_cc['auc'], 0.98))
     print('AUC on PCE {:.2f}, expected {:.2f}'.format(stats_pce['auc'], 0.81))
 
+    end = time.time()
+    total_time = end - start
+    print("Statistics computation time: ", total_time)
+
     # True Positive Rate (TPR) PCE
     print("True Positive Rate (PCE): {}".format(stats_pce["tpr"]))
     # False Positive Rate (FPR) PCE
@@ -103,7 +120,7 @@ def main():
         create_plots.create_roc_per_single_device(stats_pce_single_device["tpr"], stats_pce_single_device["fpr"], plot_title, fingerprint_device[idx])
 
     # Write tpr/fpr results in csv file.
-    uf.write_into_csv(stats_pce["tpr"], stats_pce["fpr"], "Plots/reVISIONDataset/DRUNet100/DRUNet100Rate.csv")
+    uf.write_into_csv(stats_pce["tpr"], stats_pce["fpr"], "Plots/reVISIONDataset/DRUNet100Timer/DRUNet100TimerRate.csv")
 
     # Plots PCE Histograms for each device (Use it only for Polimi dataset, because there are fewer images)
     """
@@ -131,7 +148,7 @@ def main():
         six_tuple = [fingerprint_device[i], TP[i], FP[i], TN[i], FN[i], TPR[i], FPR[i]]
         statistics_table.append(six_tuple)
     table = tabulate(statistics_table, headers=["Device", "TP", "FP", "TN", "FN", "TPR", "FPR"], tablefmt='fancy_grid')
-    uf.write_into_table_txt(table, "Plots/reVISIONDataset/DRUNet100/DRUNet100Table.txt")
+    uf.write_into_table_txt(table, "Plots/reVISIONDataset/DRUNet100Timer/DRUNet100TimerTable.txt")
     print(table)
 
     # Given the quantity of devices, plots are divided into multiple graphics.

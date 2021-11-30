@@ -70,3 +70,6 @@ Computing statistics on PCE
 AUC on CC 0.75, expected 0.98
 AUC on PCE 0.90, expected 0.81
 
+First noise extraction computation time:  8816.547738313675
+Second noise extraction computation time:  3674.8378369808197
+Statistics computation time:  392.02933049201965
