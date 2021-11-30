@@ -1,4 +1,5 @@
-Before running the code you need to download the `drunet_gray.pth` and `drunet_color.pth` files from the following links and place them in this `model_zoo` folder.
+In thi folder there are pretrained models.
+So before running the code you need to download the `drunet_gray.pth` and `drunet_color.pth` files from the following links and place them in this `model_zoo` folder.
 
 |Model|Download link|
 |---|:--:|
